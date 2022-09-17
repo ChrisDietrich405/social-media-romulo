@@ -4,6 +4,10 @@ import Header from "./components/Header";
 
 import Home from "./components/Home";
 
+import Profile from "./pages/Profile";
+import PostPage from "./pages/PostPage";
+
+
 import "./App.css";
 
 import reactLogo from "./assets/react.svg";
@@ -14,6 +18,8 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/post/:id" element={<PostPage />} />
       </Routes>
     </BrowserRouter>
   );
