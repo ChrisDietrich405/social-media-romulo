@@ -16,7 +16,6 @@ const PostItem = ({ post }: PostItemProps) => {
   const navigate = useNavigate();
 
   const handleGoToPost = () => {
-    console.log(post.id);
     navigate(`post/${post.id}`);
   };
 

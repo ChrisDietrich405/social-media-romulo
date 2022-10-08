@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useRef} from "react";
 import { useParams } from "react-router-dom";
 
 import { returnPostWithId } from "../../data";
@@ -7,10 +7,53 @@ import styles from "./styles.module.css";
 
 import logo from "../../assets/logo.png";
 
+interface IComment {
+  id: number;
+  name: string; 
+}
+interface IComments {
+  comments: IComment[]
+}
+
 const PostPage = () => {
-  let { id } = useParams();
-  const postData = returnPostWithId(parseInt(id));
-  console.log(postData);
+  let { postId } = useParams();
+  const postData = returnPostWithId(parseInt(postId));
+  const [textArea, setTextArea] = useState<string>("")
+  const [comments, setComments] = useState<IComments[]>([])
+  const [editId, setEditId] = useState(null)
+  const [isEditing, setIsEditing] = useState(false)
+
+  const inputRef = useRef()
+
+  const handleAddComment = () => {
+      setComments([...comments, {name: textArea, id: Date.now()}])
+      setTextArea("")
+    }
+
+  const handleDeleteComment  = (id: number) => {
+    const updatedComments = comments.filter((comment) => comment.id !== id)
+    setComments(updatedComments)
+  }
+
+  const handleEditComment = (id: number) => {
+    const specificComment = comments.find((comment) => comment.id === id)
+    setTextArea(specificComment.name)
+    setEditId(id)
+    setIsEditing(true)
+    
+  }
+
+  const handleConfirmEdit = () => {
+    const updatedComments = comments.map((comment) => {
+      if(comment.id === editId) {
+        return {...comment, name: textArea}
+      } 
+    })
+    setComments(updatedComments)
+    setIsEditing(false)
+  }
+
+  
 
   return (
     <div className={styles.post_page_container}>
@@ -37,6 +80,22 @@ const PostPage = () => {
               })}
             </div>
           </div>
+          <h2>Do you have something to say about this?</h2>
+          <textarea value={textArea} 
+          onChange={(e) => setTextArea(e.target.value)}
+          name="" id="" cols="120" rows="10"></textarea>
+          <button onClick={handleAddComment}>add comment</button>
+          <ul className={styles.comment_list}>{comments.map((comment) => {
+            return (
+              <li>
+              <h3 className="active">{comment.name}
+              <button onClick={() => handleDeleteComment(comment.id)}>delete comment</button></h3>
+              <button onClick={() => handleEditComment(comment.id)}>edit </button>    
+              <input className={isEditing ? "active" : ""} ref={inputRef} type="text" placeholder="edit"/>
+              <button onClick={() => handleConfirmEdit(comment.id)}>confirm </button>
+              </li>
+            )
+          })}</ul>
         </>
       )}
     </div>

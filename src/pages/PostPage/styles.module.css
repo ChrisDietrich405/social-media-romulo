@@ -1,26 +1,34 @@
 .post_page_container {
-    max-width: 1200px;
-    margin: 20px auto;   
+  max-width: 1200px;
+  margin: 20px auto;
 }
 
 .post_page_container img {
-    width: 300px; 
-    margin: 20px; 
+  width: 300px;
+  margin: 20px;
 }
 
 .post_page_container h3 {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .post_page_container p {
-    font-size: 18px;
-    margin: 10px;   
+  font-size: 18px;
+  margin: 10px;
 }
 
 .post_page_container p span {
-    font-weight: bold;  
+  font-weight: bold;
 }
 
 .text_container {
-    box-shadow: 2px 4px #888888;
+  box-shadow: 2px 4px #888888;
+}
+
+h3.active {
+  display: block !important;
+}
+
+input.active {
+  display: block !important;
 }
