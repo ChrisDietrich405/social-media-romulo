@@ -12,3 +12,11 @@ export interface IPost {
   author: string;
   comments: IComments[];
 }
+
+export interface IInitialState {
+  password: string;
+  username: string;
+  error: string;
+  isLoading: boolean;
+  isLoggedIn: boolean;
+}

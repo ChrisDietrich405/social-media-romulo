@@ -12,10 +12,10 @@ const Header = () => {
         <Link to="/">
           <img src={logo} />
         </Link>
+        <Link to="/">Home</Link>
         <Link to="/profile">Profile</Link>
-        <Link to="/profile">Profile</Link>
-        <Link to="/profile">Profile</Link>
-        <Link to="/profile">Profile</Link>
+        <Link to="/login">Log In</Link>
+        <Link to="/profile">About us</Link>
       </nav>
     </header>
   );
