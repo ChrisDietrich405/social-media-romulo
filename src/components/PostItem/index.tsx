@@ -25,7 +25,7 @@ const PostItem = ({ post }: PostItemProps) => {
         <h1>{post.title}</h1>
         <button onClick={handleGoToPost}>See Full</button>
       </div>
-      <img src={logo} alt="" />
+      <img src={post.image} alt="" />
       <h2>Author: {post.author}</h2>
       <ul>
         return (

@@ -1,6 +1,8 @@
-import React, {useState, useRef} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { BiUserCircle } from "react-icons/bi";
 
+import EditItem from "../../components/EditItem";
 import { returnPostWithId } from "../../data";
 
 import styles from "./styles.module.css";
@@ -9,93 +11,116 @@ import logo from "../../assets/logo.png";
 
 interface IComment {
   id: number;
-  name: string; 
+  name: string;
 }
 interface IComments {
-  comments: IComment[]
+  comments: IComment[];
 }
 
 const PostPage = () => {
   let { postId } = useParams();
   const postData = returnPostWithId(parseInt(postId));
-  const [textArea, setTextArea] = useState<string>("")
-  const [comments, setComments] = useState<IComments[]>([])
-  const [editId, setEditId] = useState(null)
-  const [isEditing, setIsEditing] = useState(false)
+  const [comments, setComments] = useState([]);
+  const [editId, setEditId] = useState(0);
 
-  const inputRef = useRef()
+  const inputRef = useRef();
+  const textAreaRef = useRef();
 
   const handleAddComment = () => {
-      setComments([...comments, {name: textArea, id: Date.now()}])
-      setTextArea("")
-    }
+    setComments([
+      ...comments,
+      {
+        personalIcon: <BiUserCircle size="60" />,
+        message: textAreaRef.current.value,
+        id: Date.now(),
+        author: "chris",
+      },
+    ]);
 
-  const handleDeleteComment  = (id: number) => {
-    const updatedComments = comments.filter((comment) => comment.id !== id)
-    setComments(updatedComments)
-  }
+    textAreaRef.current.value = "";
+  };
+
+  const handleConfirmEditComment = (editInput, commentId) => {
+    
+    const updatedComments = comments.map((comment) => {
+      if (comment.id === commentId) {
+        return { ...comment, message: editInput.current.value };
+      } else {
+        return comment;
+      }
+    });
+
+    setComments(updatedComments);
+    console.log(comments)
+  };
+
+  const handleDeleteComment = (id: number) => {
+    const updatedComments = comments.filter((comment) => comment.id !== id);
+    setComments(updatedComments);
+  };
 
   const handleEditComment = (id: number) => {
-    const specificComment = comments.find((comment) => comment.id === id)
-    setTextArea(specificComment.name)
-    setEditId(id)
-    setIsEditing(true)
-    
-  }
+    const editComment = comments.find((comment) => comment.id === id);
+    textAreaRef.current.value = editComment.message;
+    setIsEditing(true);
+    setEditId(id);
+  };
 
-  const handleConfirmEdit = () => {
-    const updatedComments = comments.map((comment) => {
-      if(comment.id === editId) {
-        return {...comment, name: textArea}
-      } 
-    })
-    setComments(updatedComments)
-    setIsEditing(false)
-  }
-
-  
+  useEffect(() => {
+    if (postData) {
+      setComments(postData.comments);
+    }
+  }, [postData]);
 
   return (
     <div className={styles.post_page_container}>
       {postData && (
         <>
           <h1>{postData.title}</h1>
-          <img src={logo} alt={postData.title} />
+          <img src={postData.image} alt={postData.title} />
           <div className={styles.text_container}>
-            <h3>
-              <span>Author:</span> {postData.author}
-            </h3>
-            <p>
-              <span>Text:</span> {postData.text}
-            </p>
-            <h2>Comments</h2>
-            <div>
-              {postData.comments.map((comment) => {
-                return (
-                  <p>
-                    <span>Comment: </span>
-                    {comment.message}
-                  </p>
-                );
-              })}
+            <div className={styles.author_container}>
+              <h3>Author: &nbsp;</h3>
+
+              <p>{postData.author}</p>
             </div>
+
+            <h3>Text:</h3>
+            <p> {postData.text}</p>
           </div>
-          <h2>Do you have something to say about this?</h2>
-          <textarea value={textArea} 
-          onChange={(e) => setTextArea(e.target.value)}
-          name="" id="" cols="120" rows="10"></textarea>
-          <button onClick={handleAddComment}>add comment</button>
-          <ul className={styles.comment_list}>{comments.map((comment) => {
-            return (
-              <li>
-              <h3 className="active">{comment.name}
-              <button onClick={() => handleDeleteComment(comment.id)}>delete comment</button></h3>
-              <button onClick={() => handleEditComment(comment.id)}>edit </button>    
-              <input className={isEditing ? "active" : ""} ref={inputRef} type="text" placeholder="edit"/>
-              <button onClick={() => handleConfirmEdit(comment.id)}>confirm </button>
-              </li>
-            )
-          })}</ul>
+          <div className={styles.comments_container}>
+            <h2>Comments:</h2>
+
+            <EditItem
+              comments={comments}
+              handleEditComment={handleEditComment}
+              handleConfirmEditComment={handleConfirmEditComment}
+              handleDeleteComment={handleDeleteComment}
+              setEditId={setEditId}
+            />
+          </div>
+
+          <h2 style={{ marginBottom: "20px" }}>
+            Do you have something to say about this?
+          </h2>
+          <textarea
+            ref={textAreaRef}
+            name=""
+            id=""
+            cols="120"
+            rows="10"
+          ></textarea>
+          <ul className={styles.comment_list}>
+            <button onClick={handleAddComment}>Add Comment</button>
+           
+            {comments.map((comment) => {
+              return (
+                <li>
+                  <h3 className="active">{comment.name}</h3>
+                </li>
+              );
+            })}
+          </ul>
         </>
       )}
     </div>

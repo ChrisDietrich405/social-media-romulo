@@ -10,6 +10,7 @@ export interface IPost {
   title: string;
   text: string; 
   author: string;
+  image: string;
   comments: IComments[];
 }
 
