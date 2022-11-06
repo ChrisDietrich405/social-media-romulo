@@ -28,14 +28,12 @@ const PostItem = ({ post }: PostItemProps) => {
       <img src={post.image} alt="" />
       <h2>Author: {post.author}</h2>
       <ul>
-        return (
         <li className={styles.text_container}>
           <p>{readMore ? post.text : post.text.substring(0, 60)}</p>
           <button onClick={() => setReadMore(!readMore)}>
             {readMore ? "Read less" : "Read more"}
           </button>
         </li>
-        );
       </ul>
     </li>
   );

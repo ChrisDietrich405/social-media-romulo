@@ -3,12 +3,8 @@ import CommentItem from "./CommentItem";
 
 const EditItem = ({
   comments,
-  setEditId,
   handleConfirmEditComment,
   handleDeleteComment,
-  handleEditComment,
-  setIsEditing,
-  isEditing,
 }) => {
   return (
     <ul>

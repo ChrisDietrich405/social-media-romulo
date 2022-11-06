@@ -4,3 +4,11 @@
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
  }
+
+ button {
+    border-radius: 10px !important;
+ }
+
+ button:hover {
+    background-color: #8bcda7;
+ }

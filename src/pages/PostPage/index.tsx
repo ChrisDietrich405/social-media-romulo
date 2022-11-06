@@ -41,7 +41,6 @@ const PostPage = () => {
   };
 
   const handleConfirmEditComment = (editInput, commentId) => {
-    
     const updatedComments = comments.map((comment) => {
       if (comment.id === commentId) {
         return { ...comment, message: editInput.current.value };
@@ -51,19 +50,12 @@ const PostPage = () => {
     });
 
     setComments(updatedComments);
-    console.log(comments)
+    console.log(comments);
   };
 
   const handleDeleteComment = (id: number) => {
     const updatedComments = comments.filter((comment) => comment.id !== id);
     setComments(updatedComments);
-  };
-
-  const handleEditComment = (id: number) => {
-    const editComment = comments.find((comment) => comment.id === id);
-    textAreaRef.current.value = editComment.message;
-    setIsEditing(true);
-    setEditId(id);
   };
 
   useEffect(() => {
@@ -80,12 +72,11 @@ const PostPage = () => {
           <img src={postData.image} alt={postData.title} />
           <div className={styles.text_container}>
             <div className={styles.author_container}>
-              <h3>Author: &nbsp;</h3>
+              <h3>Author:</h3>
 
               <p>{postData.author}</p>
             </div>
 
-            <h3>Text:</h3>
             <p> {postData.text}</p>
           </div>
           <div className={styles.comments_container}>
@@ -93,10 +84,8 @@ const PostPage = () => {
 
             <EditItem
               comments={comments}
-              handleEditComment={handleEditComment}
               handleConfirmEditComment={handleConfirmEditComment}
               handleDeleteComment={handleDeleteComment}
-              setEditId={setEditId}
             />
           </div>
 
@@ -112,10 +101,10 @@ const PostPage = () => {
           ></textarea>
           <ul className={styles.comment_list}>
             <button onClick={handleAddComment}>Add Comment</button>
-           
+
             {comments.map((comment) => {
               return (
-                <li>
+                <li className={styles.comment_list_item}>
                   <h3 className="active">{comment.name}</h3>
                 </li>
               );
