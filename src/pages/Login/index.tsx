@@ -18,11 +18,15 @@ const Login = () => {
       passwordRef.current.value === "password"
     ) {
       alert("you logged in");
+      dispatch({ type: "success" });
       // nav("/");
     }
-    
-    dispatch({ type: "error"})
-    dispatch({ type: "success" });
+    if (
+      usernameRef.current.value !== "chris" ||
+      passwordRef.current.value !== "password"
+    ) {
+      dispatch({ type: "error" });
+    }
   };
 
   return (
@@ -33,7 +37,7 @@ const Login = () => {
       ) : (
         <>
           <input type="text" ref={usernameRef} placeholder="username" />
-          <input type="password" ref={passwordRef} placeholder="password" />
+          <input type="text" ref={passwordRef} placeholder="password" />
           <button onClick={handleSubmit}>enter</button>
         </>
       )}

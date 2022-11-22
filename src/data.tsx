@@ -8,7 +8,7 @@ export const posts = [
   {
     id: 1,
     title: "Otters are great!",
-    text: "JJJJJJJJJJJJJJJJJJJJJJipsum with text editors as well. If you’re using the sublime text editor, for example, here’s how to add lorem ipsum. Within the paragraph tags <p></p>,type lorem then click the tab key on your keyboard.",
+    text: "lorem ipsum with text editors as well. If you’re using the sublime text editor, for example, here’s how to add lorem ipsum. Within the paragraph tags <p></p>,type lorem then click the tab key on your keyboard.",
     author: "Romulo",
     image:
       "https://www.otterspecialistgroup.org/osg-newsite/wp-content/uploads/2017/04/ThinkstockPhotos-827261360.jpg",
